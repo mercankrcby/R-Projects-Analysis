@@ -1,0 +1,106 @@
+---
+title: "Final1-3"
+author: "Mercan Karacabey"
+date: "02 01 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+install.packages("nycflights13")
+```
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+library(dplyr) 
+library(nycflights13) 
+library(ggplot2)
+glimpse(flights)
+```
+
+```{r cars}
+
+glimpse(flights)
+print(flights$year)
+```
+
+
+```{r cars}
+flights1 <- flights %>% group_by(month)  %>% mutate(Rate = sched_arr_time / sched_dep_time) %>% select(Rate,sched_arr_time,sched_dep_time,month) %>% summarise(total = sum(sched_arr_time))
+
+print(flights1)
+
+ggplot(flights1, aes(flights1$month, flights1$total)) + 
+  geom_point()
+
+```
+
+```{r cars}
+
+
+ggplot(flights, aes(flights$carrier, flights$arr_delay,colour = flights$month)) + 
+  geom_point()
+
+```
+
+
+```{r cars}
+print(flights1$total/100000)
+pie(flights1$total/100000,labels = flights1$month,main="Sales per region")
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+library(ggplot2)
+ggplot(flights, aes(flights$air_time, flights$distance, colour = flights$flight)) + 
+  geom_point()
+```
+
+```{r pressure, echo=FALSE}
+ p<-ggplot(flights,
+        aes(x=flights$month)) +
+   geom_line(aes(y = flights$arr_delay , colour = "arr_delay"))+
+   geom_line(aes(y = flights$dep_delay , colour = "dep_delay")) +
+   xlab("Import/Export Date") +
+   ylab("Amount  (Million $)") +
+   ggtitle("Import & Export Amount")
+   
+ggplotly(p)
+ 
+```
+
+```{r pressure, echo=FALSE}
+p = ggplot() + 
+  geom_line(data = flights, aes(x = flights$month, y = flights$arr_time), color = "blue") +
+  geom_line(data = flights, aes(x = flights$month, y = flights$dep_time), color = "red") +
+  xlab('Dates') +
+  ylab('percent.change')
+
+print(p)
+```
+```{r pressure, echo=FALSE}
+ggplot(flights, aes(x = flights$time_hour)) + 
+  geom_line(aes(y = flights$arr_time), colour="blue") + 
+  geom_line(aes(y = flights$dep_time), colour = "red") + 
+  ylab(label="Number of new members") + 
+  xlab("Week")
+```
+
+
+
+```{r pressure, echo=FALSE}
+library(ggplot2)
+ggplot(flights, aes(flights$dep_delay, flights$air_time, colour = flights$flight)) + 
+  geom_point()
+```
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
