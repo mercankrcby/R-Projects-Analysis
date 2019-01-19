@@ -1,0 +1,257 @@
+---
+title: "Final Project"
+output:
+  html_document:
+    df_print: paged
+date: "04 01 2019"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## PART 1
+
+  1. What is your opinion about Python vs R debate? To what extent do you agree with the post on https://www.dataschool.io/python-or-r-for-data-science/? Be honest, you won’t be penalized or rewarded for stating your opinions; only by the quality your arguments.
+   
+    * I agree on the syntax side, I found r syntax not easy to learn and and not structured enough, I have
+  very little C experience from university and maybe because of that I found syntax python easier and
+  more similar to regular human language. I also agree that R is more efficient than python for data
+  visualisation. I also found writer a little non-objective and python-sided because of that he defined
+  python more sexy than R however there is not enough legitimate base in the post to claim that.
+  
+  2. What is your exploratory data analysis workflow? Suppose you are given a data set and a research question. Where do you start? How do you proceed? For instance, you are given the task to distribute funds from donations to public welfare projects in a wide range of subjects (e.g. education, gender equality, poverty, job creation, healthcare) with the objective of maximum positive impact on the society in general. Assume you have almost all the data you require. How do you measure impact? How do you form performance measures? What makes you think you find an interesting angle?
+  
+    * Firstly I check whether the dataset is in line with the analysis purpose and then data
+  cleaning is performed. Assumed that we can get every data, ı prefer to get average marginal
+  benefit of dollar felt by people grouped by different categories (health, education etc). Then I
+  categorise people according to their expectation and fund the most problematic case until
+  they are averagely problematic then fund every subject equally. I measure impact via
+  increased benefit. It would be interesting to find a problem not caused by poverty. It is not
+  correct to mix data with inclinations however it can be used as title in case there is a strong
+  statistical evidence to state it so.
+ 
+ 
+  3. If you had to plot a single graph using the flights data what would it be? Why? Make your argument, actually code the plot and provide the output. (You can find detailed info about the movies data set in its help file. Use ?flights, after you load nycflights13 package.)
+  
+    * I would like a plot a graph regarding departure delays vs air time because of that ı would
+  like to know whether delays regarding flights with higher air time (in other words “expensive
+  flights” due to positive correlation between air time and flight price) are less than delays in
+  average flights. In the graph it is seen that average delay for flights with 500+ minutes air
+  time is quite less than average delays of other flights which may mean expensive flights have
+  departure priority over other flights or they are better scheduled or they have separate
+  airfields for departure.
+  
+```{r start1}
+library(dplyr) 
+library(nycflights13) 
+library(ggplot2)
+glimpse(flights)
+
+ggplot(flights, aes(flights$dep_delay, flights$air_time, colour = flights$flight)) + 
+  geom_point()
+```
+
+
+
+## PART 2
+
+* In our presentation, we presented export amounts sector based and because of that manufacturing involves lots of subsectors (22         subsector) it only showed that most of the export is under manufacturing sector.  I think that ıt can be explanatory to add a graph       showing specifically subsectors under manufacturing. 
+  In the graph we can see that top 3 manufacturing subsector is manufacture of motor vehicles, trailers and semi-trailers, manufacture     of basic metals and manufacture of machinery and equipment. Graph is colored by months in 2018 and we can say that top 3 sectors have     significant fluctuations by months whereas subsectors with lower export amounts are more stable during time. 
+
+
+```{r, warning=FALSE}
+#required packages
+library("tidyverse")
+library("readxl")
+library("ggplot2")
+library("plotly")
+library("gapminder")
+library("dplyr")
+```
+
+#### Download RDS Data from Github Page
+
+```{r, warning=FALSE}
+tmp<-tempfile(fileext=".rds")
+download.file("https://github.com/MEF-BDA503/gpj18-r_coders/blob/master/Data_Sources_Rds/imp_data_final.rds?raw=true",
+              destfile=tmp,mode = 'wb')
+imp_data_final<-read_rds(tmp)
+file.remove(tmp)
+
+
+tmp<-tempfile(fileext=".rds")
+download.file("https://github.com/MEF-BDA503/gpj18-r_coders/blob/master/Data_Sources_Rds/exp_data_final.rds?raw=true",
+              destfile=tmp,mode = 'wb')
+exp_data_final<-read_rds(tmp)
+file.remove(tmp)
+
+
+tmp<-tempfile(fileext=".rds")
+download.file("https://github.com/MEF-BDA503/gpj18-r_coders/blob/master/Data_Sources_Rds/imp_data.rds?raw=true?raw=true",
+              destfile=tmp,mode = 'wb')
+imp_data<-read_rds(tmp)
+file.remove(tmp)
+
+
+tmp<-tempfile(fileext=".rds")
+download.file("https://github.com/MEF-BDA503/gpj18-r_coders/blob/master/Data_Sources_Rds/exp_data.rds?raw=true?raw=true",
+              destfile=tmp,mode = 'wb')
+exp_data<-read_rds(tmp)
+file.remove(tmp)
+
+tmp<-tempfile(fileext=".rds")
+download.file("https://github.com/MEF-BDA503/gpj18-r_coders/blob/master/Data_Sources_Rds/Producer_Inflation.rds?raw=true",
+              destfile=tmp,mode = 'wb')
+producer_inf<-read_rds(tmp)
+file.remove(tmp)
+
+# Create a temporary file
+tmp=tempfile(fileext=".xls")
+# Download file from repository to the temp file
+download.file("https://github.com/MEF-BDA503/gpj18-r_coders/blob/master/Data_Sources_Excel/export_import_sectors.xls?raw=true",
+              destfile=tmp,mode='wb')
+# Read that excel file.
+sectors <- read_excel(tmp)
+# Remove the temp file
+file.remove(tmp)
+
+tmp<-tempfile(fileext=".rds")
+download.file("https://github.com/MEF-BDA503/gpj18-r_coders/blob/master/Data_Sources_Rds/US_Dollar_Montly_Rate.rds?raw=true",
+              destfile=tmp,mode = 'wb')
+usd_rate<-read_rds(tmp)
+file.remove(tmp)
+```
+
+##### Format Data
+```{r, warning=FALSE}
+names(exp_data_final)[names(exp_data_final) == 'Date'] <- 'Export_Date'
+names(exp_data)[names(exp_data) == 'Date'] <- 'Export_Date'
+names(imp_data_final)[names(imp_data_final) == 'Date'] <- 'Import_Date'
+names(imp_data_final)[names(imp_data_final) == 'Export_Total_Amount']<-'Import_Total_Amount'
+names(imp_data)[names(imp_data) == 'Date'] <- 'Import_Date'
+
+library("dplyr")
+exp_data <- inner_join(exp_data,sectors, by=c("Sector_Type_Code"="Sub_Sector_Type_Code"))
+
+imp_data <- inner_join(imp_data,sectors, by=c("Sector_Type_Code"="Sub_Sector_Type_Code"))
+
+exp_data$Export_Year<-as.numeric(format(exp_data$Export_Date,"%Y"))
+exp_data$Export_Year_Month<-format(exp_data$Export_Date,"%Y-%m")
+exp_data_final$Export_Year<-as.numeric(format(exp_data_final$Export_Date,"%Y"))
+exp_data_final$Export_Year_Month<-format(exp_data_final$Export_Date,"%Y-%m")
+
+imp_data$Import_Year<-as.numeric(format(imp_data$Import_Date,"%Y"))
+imp_data$Import_Year_Month<-format(imp_data$Import_Date,"%Y-%m")
+imp_data_final$Import_Year<-as.numeric(format(imp_data_final$Import_Date,"%Y"))
+imp_data_final$Import_Year_Month<-format(imp_data_final$Import_Date,"%Y-%m")
+
+imp_data<- imp_data %>%
+  select (Import_Date,Sector_Type_Code,Sector_Type_Code.y,Main_Sector_Flag,Sector_Name_Eng,
+          Amount,Import_Year,Import_Year_Month)
+exp_data<- exp_data %>%
+  select (Export_Date,Sector_Type_Code,Sector_Type_Code.y,Main_Sector_Flag,Sector_Name_Eng,
+          Amount,Export_Year,Export_Year_Month)  
+
+colnames(imp_data)[colnames(imp_data) == 'Amount'] <- 'Import_Amount'
+colnames(exp_data)[colnames(exp_data) == 'Amount'] <- 'Export_Amount'
+colnames(imp_data)[colnames(imp_data) == 'Sector_Type_Code'] <- 'Sub_Sector_Type_Code'
+colnames(exp_data)[colnames(exp_data) == 'Sector_Type_Code'] <- 'Sub_Sector_Type_Code'
+colnames(imp_data)[colnames(imp_data) == 'Sector_Type_Code.y'] <- 'Sector_Type_Code'
+colnames(exp_data)[colnames(exp_data) == 'Sector_Type_Code.y'] <- 'Sector_Type_Code'
+imp_data$Import_Amount[is.na(imp_data$Import_Amount)] <- 0
+imp_data_final$Import_Total_Amount[is.na(imp_data_final$Import_Total_Amount)] <- 0
+exp_data$Export_Amount[is.na(exp_data$Export_Amount)] <- 0
+exp_data_final$Export_Total_Amount[is.na(exp_data_final$Export_Total_Amount)] <- 0
+
+
+exp_data_final <- exp_data_final %>%
+  filter(Export_Date<'2018-11-01')
+
+exp_data <- exp_data %>%
+  filter(Export_Date<'2018-11-01')
+
+imp_data_final <- imp_data_final %>%
+  filter(Import_Date<'2018-11-01')
+
+imp_data <- imp_data %>%
+  filter(Import_Date<'2018-11-01')
+
+saveRDS(imp_data,file="imp_data_v2.rds")
+saveRDS(imp_data_final,file="imp_data_final_v2.rds")
+saveRDS(exp_data,file="exp_data_v2.rds")
+saveRDS(exp_data_final,file="exp_data_final_v2.rds")
+```
+
+```{r start2}
+exp_share_sectors <- 
+  exp_data  %>% 
+  filter(Main_Sector_Flag==1 & Export_Date<'2018-11-01')%>% 
+  group_by(Sector_Name_Eng) %>%
+  summarize(Export_Amount_Share=sum(Export_Amount)) %>%
+  mutate (Export_Amount_Share=round((Export_Amount_Share/sum(Export_Amount_Share)),4))
+
+
+exp_share_sectors$share_z <- 
+  round((exp_share_sectors$Export_Amount_Share 
+         - mean(exp_share_sectors$Export_Amount_Share))/
+          sd(exp_share_sectors$Export_Amount_Share), 2)
+
+exp_share_sectors$above_or_below <- ifelse(exp_share_sectors$share_z < 0, "Below", "Above")  
+exp_share_sectors <- exp_share_sectors[order(exp_share_sectors$share_z), ]
+exp_share_sectors$Sector_Name_Eng <- factor(exp_share_sectors$Sector_Name_Eng, 
+                                            levels = exp_share_sectors$Sector_Name_Eng)
+
+
+theme_set(theme_bw())
+
+ggplot(exp_share_sectors, aes(x= share_z   , y=  Sector_Name_Eng, label=share_z)) + 
+  xlab("Z") +
+  ylab("Sector Name") +
+  ggtitle("Export Sector Share")+
+  geom_point(stat='identity', aes(col=above_or_below), size=6) #+
+```  
+
+
+```{r start3}
+exp_share_sectors1 <- exp_data %>%
+  filter(grepl("Manufacture",exp_data$Sector_Name_Eng) & exp_data$Export_Year==2018)
+
+ggplot(exp_share_sectors1, aes(x= exp_share_sectors1$Sub_Sector_Type_Code  ,
+                           y=  exp_share_sectors1$Export_Amount, 
+                           label=exp_share_sectors1$Sub_Sector_Type_Code)) +
+   xlab("Manufacturing Sub Sectors") +
+   ylab("Total Export") +
+   ggtitle("Manufacturing SubSector Based Export-2018")+
+   geom_point(stat='identity', aes(col=exp_share_sectors1$Export_Year_Month), size=6)
+
+``` 
+
+
+
+## PART 3
+
+```{r start4}
+tmp<-tempfile(fileext=".rds")
+download.file("https://github.com/MEF-BDA503/pj18-efehandanisman/blob/master/timeshighereducation/ranking2019.rds?raw=true?raw=true",
+              destfile=tmp,mode = 'wb')
+education_data <-read_rds(tmp)
+```
+
+
+b) * I think citation rank is one of the most important feature to define a university as productive. I want see relation between          citation rate, overall rank and industry income. 
+    In the graph we a can see slight positive correlation between rank and citation rank. There are a lot of universities far away from     trendline due to other factors affecting overall rank. We can  see that universities with good citation rank gets more industry income     and universities with worse citation rank gets less industrial income. We may say that the more universities contribute to new            scientific developments, the more they are preferred by firms for activities generate industrial income.
+
+
+```{r pressure, echo=FALSE}
+education_data1 <- education_data %>% filter(education_data$location=="Germany")
+
+p <- ggplot(education_data1, aes(x= education_data1$rank  , y=  education_data1$scores_citations_rank, label=education_data1$rank)) +
+  xlab("citations_rank") +
+  ylab("rank") +
+  ggtitle("rank-citations_rank GERMANY")+
+  geom_point(stat='identity', aes(col=education_data1$scores_industry_income), size=6)
+p + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+
+ggplotly(p)
+```
