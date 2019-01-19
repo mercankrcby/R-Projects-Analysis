@@ -1,0 +1,682 @@
+---
+title: "2016/2017/2018 - OddDataAnalysis"
+author: "Mercan Karacabey"
+date: "19 11 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Used This Libraries
+```{r, warning=FALSE}
+library(readxl)
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r, warning=FALSE}
+dat <- readRDS("car_data_aggregate.rds")
+```
+
+
+head and tail of excel data
+
+```{r}
+head(dat)
+tail(dat)
+```
+
+## Time to make some analysis
+
+Firstly, we should learn brand names.
+```{r,warning=FALSE}
+dat %>% 
+  select(brand_name) 
+```
+
+-----------------------------------------------------------------------------------------
+
+On the below, automobiles which sold more than others in 2016,2017,2018.
+
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% 
+  arrange(desc(auto_total)) %>% filter(brand_name != 'TOPLAM:')
+```
+
+```{r, warning=FALSE}
+result1 <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% 
+  arrange(desc(auto_total)) %>% filter(brand_name != 'TOPLAM:')
+```
+
+```{r , echo=FALSE}
+ggplot(result1,aes(x=month,y=auto_total))+geom_point()
+```
+
+## Analysis for __ALFA ROMEO__
+
+Most automobile sales for Alfa Romeo.
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'ALFA ROMEO') %>% arrange(desc(auto_total))
+```
+For 2018,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'ALFA ROMEO') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'ALFA ROMEO') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2017,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'ALFA ROMEO') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'ALFA ROMEO') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2016,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'ALFA ROMEO') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'ALFA ROMEO') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+
+## Analysis for __ASTON MARTIN__
+
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'ASTON MARTİN') %>% arrange(desc(auto_total))
+```
+Only, was done sale in 2016-Jan for Aston Martin. 
+
+## Analysis for __AUDI__
+
+Most automobile sales for Audi.
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'AUDI') %>% arrange(desc(auto_total))
+```
+For 2018,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'AUDI') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'AUDI') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+For 2017,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'AUDI') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'AUDI') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+## Analysis for __BENTLEY__
+
+Most automobile sales for BENTLEY.
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'BENTLEY') %>% arrange(desc(auto_total))
+```
+For 2018,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'BENTLEY') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'BENTLEY') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2017,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'BENTLEY') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'BENTLEY') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2016,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'BENTLEY') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'BENTLEY') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+## Analysis for __BMW__
+
+Most automobile sales for BMW.
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'BMW') %>% arrange(desc(auto_total))
+```
+
+For 2018,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'BMW') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'BMW') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2017,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'BMW') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'BMW') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2016,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'BMW') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'BMW') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+
+## Analysis for __CHERY__
+
+Most automobile sales for CHERY.
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'CHERY') %>% arrange(desc(auto_total))
+```
+
+For 2018,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'CHERY') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'CHERY') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2017,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'CHERY') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'CHERY') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2016,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'CHERY') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'CHERY') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+## Analysis for __CITROEN__
+
+Most automobile sales for CITROEN.
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'CITROEN') %>% arrange(desc(auto_total))
+```
+
+For 2018,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'CITROEN') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'CITROEN') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2017,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'CITROEN') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'CITROEN') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2016,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'CITROEN') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'CITROEN') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+
+## Analysis for __DACIA__
+
+Most automobile sales for DACIA.
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'DACIA') %>% arrange(desc(auto_total))
+```
+
+For 2018,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'DACIA') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'DACIA') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2017,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'DACIA') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'DACIA') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2016,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'DACIA') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'DACIA') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+## Analysis for __DS__
+
+Most automobile sales for DS.
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'DS') %>% arrange(desc(auto_total))
+```
+
+For 2018,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'DS') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'DS') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2017,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'DS') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'DS') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2016,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'DS') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'DS') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+## Analysis for __FERRARI__
+
+Most automobile sales for FERRARI.
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'FERRARI') %>% arrange(desc(auto_total))
+```
+
+For 2018,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'FERRARI') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'FERRARI') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2017,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'FERRARI') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'FERRARI') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2016,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'FERRARI') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'FERRARI') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+## Analysis for __FIAT__
+
+Most automobile sales for FIAT.
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'FIAT') %>% arrange(desc(auto_total))
+```
+
+For 2018,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'FIAT') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'FIAT') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2017,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'FIAT') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'FIAT') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2016,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'FIAT') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'FIAT') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+## Analysis for __RENAULT__
+
+Most automobile sales for RENAULT.
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'RENAULT') %>% arrange(desc(auto_total))
+```
+
+For 2018,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'RENAULT') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'RENAULT') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2017,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'RENAULT') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'RENAULT') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2016,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'RENAULT') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'RENAULT') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+## Analysis for __VOLKSWAGEN__
+
+Most automobile sales for VOLKSWAGEN.
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'VOLKSWAGEN') %>% arrange(desc(auto_total))
+```
+
+For 2018,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'VOLKSWAGEN') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'VOLKSWAGEN') %>% filter(year==2018) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2017,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'VOLKSWAGEN') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'VOLKSWAGEN') %>% filter(year==2017) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```
+
+For 2016,
+```{r, warning=FALSE}
+dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'VOLKSWAGEN') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r, warning=FALSE}
+tabl <- dat %>% 
+  select(brand_name,auto_total,auto_dom,comm_dom,total_imp,total_dom,year,month) %>% filter(brand_name == 'VOLKSWAGEN') %>% filter(year==2016) %>% mutate(meanOfAutoTotal = mean(auto_total))  %>% arrange(desc(auto_total))
+```
+
+```{r , echo=FALSE}
+ggplot(tabl,aes(x=month,y=auto_total))+geom_point()
+```

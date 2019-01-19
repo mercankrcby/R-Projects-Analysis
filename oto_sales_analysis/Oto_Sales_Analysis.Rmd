@@ -1,0 +1,110 @@
+---
+title: "oto_sales_analysis"
+author: "Mercan Karacabey"
+date: "30 10 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Downloaded These Packages
+```{r,warning=FALSE}
+install.packages("readxl")
+install.packages("tidyverse")
+```
+## Used This Libraries
+```{r, warning=FALSE}
+library(readxl)
+library(tidyverse)
+```
+
+## Download Data
+Create a temporary file
+
+```{r}
+tmp<-tempfile(fileext=".xlsx")
+```
+
+Download file from repository to the temp file
+
+```{r, warning=FALSE}
+download.file("https://github.com/MEF-BDA503/pj18-mkaracabey/blob/master/oto_sales_analysis/2017_4_sales_oto.xlsx?raw=true",mode = 'wb',destfile=tmp)
+```
+
+## Excel Data Read This Way
+
+```{r, warning=FALSE}
+raw_data<-readxl::read_excel(tmp,skip=7,col_names=FALSE)
+```
+
+*When I first run readxl function, it gave me error -- Evaluation error: error -103 with zipfile in unzGetCurrentFileInfo then I insert mode='wb' to download.file function*
+
+Remove the temp file
+
+```{r, warning=FALSE}
+file.remove(tmp)
+```
+
+head and tail of excel data
+
+```{r}
+head(raw_data)
+tail(raw_data)
+```
+
+Since the last 2 rows are blank and total, I removed these rows
+
+```{r}
+raw_data <- raw_data %>% slice(-c(43,44))
+tail(raw_data)
+head(raw_data) 
+```
+
+## Make Data Civilized
+Define column names
+```{r, warning=FALSE}
+colnames(raw_data) <- c("brand_name","auto_dom","auto_imp","auto_total","comm_dom","comm_imp","comm_total","total_dom","total_imp","total_total")
+```
+
+and remove NA values with 0 and label the time period with year and month in order to prevent confusion when we merge data
+( ``mutate()`` adds new variables and preserves existing; ``transmute()`` drops existing variables )
+
+```{r, warning=FALSE}
+car_data_april_17 <- raw_data %>% mutate_if(is.numeric,funs(ifelse(is.na(.),0,.))) %>% mutate(year=2017,month=4)
+print(car_data_april_17,width=Inf)
+```
+
+## Saving Civilized Data
+One of the best methods is to save your data to an RDS or RData file. The difference is RDS can hold only one object but RData can hold many. Since we have only one data frame here we will go with RDS.
+
+You can read that file by readRDS and assigning to an object ``rds_data <- readRDS("~/YOUR_OWN_PATH/odd_car_sales_data_april_17.rds")``
+
+```{r, warning=FALSE}
+saveRDS(car_data_april_17,file="data_april_17.rds")
+```
+
+## Time to make some analysis
+
+```{r,warning=FALSE}
+car_data_april_17 %>% 
+  select(brand_name,auto_dom) %>% 
+  arrange(auto_dom) %>% 
+  filter(auto_dom>0)
+```
+
+On above, companies of maked car sales.
+
+-----------------------------------------------------------------------------------------
+
+On the below, Some Filter Added to show sales of car clearly in April of 2017.
+
+```{r, warning=FALSE}
+car_data_april_17 %>% 
+  select(brand_name,auto_dom,comm_dom,total_imp,total_dom) %>% 
+  arrange(auto_dom) %>% arrange(total_imp) %>%
+  filter(comm_dom>0) %>% filter(auto_dom>0) %>% filter(total_imp >0)
+```
+
+

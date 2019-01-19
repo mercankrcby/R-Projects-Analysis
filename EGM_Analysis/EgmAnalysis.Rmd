@@ -1,0 +1,89 @@
+---
+title: "BM_EGM"
+author: "Mercan Karacabey - Büşra Aydemir"
+date: "31 10 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+chooseCRANmirror(graphics=FALSE, ind=1)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Downloaded These Packages
+```{r,warning=FALSE}
+install.packages("readxl")
+install.packages("tidyverse")
+```
+## Used This Libraries
+```{r, warning=FALSE}
+library(readxl)
+library(tidyverse)
+```
+
+
+## Download Data
+Create a temporary file
+
+```{r}
+tmp<-tempfile(fileext=".xlsx")
+```
+
+
+Download file from repository to the temp file
+
+```{r, warning=FALSE}
+download.file("https://github.com/MEF-BDA503/pj18-mkaracabey/blob/master/EGM_Analysis/egm_example_data.xlsx?raw=true",mode = 'wb',destfile=tmp)
+```
+
+## Excel Data Read This Way
+
+```{r, warning=FALSE}
+raw_data<-readxl::read_excel(tmp,skip=7,col_names=FALSE)
+```
+
+Remove the temp file
+```{r, warning=FALSE}
+file.remove(tmp)
+```
+
+```{r}
+head(raw_data)
+tail(raw_data)
+```
+
+## Make Data Civilized
+Define column names
+```{r, warning=FALSE}
+colnames(raw_data) <- c("date","pension_fund_company","n_of_participants",	"fund_size_participants",	"gov_contribution",	"contribution",	"n_of_pensioners",	"n_of_ind_contracts",	"n_of_group_ind_contracts",	"n_of_employer_group_certificates",	"n_total","size_of_ind_contracts",	"size_of_group_ind_contracts",	"size_of_employer_group_certificates"	,"size_total")
+```
+
+```{r, warning=FALSE}
+egm_data <- raw_data %>% mutate_if(is.numeric,funs(ifelse(is.na(.),0,.))) 
+print(egm_data,width=Inf)
+```
+
+```{r, warning=FALSE}
+saveRDS(egm_data,file="egm_data.rds")
+```
+
+## SOME ANALYSIS
+```{r,warning=FALSE}
+egm_data %>% 
+  select(date,n_of_participants,pension_fund_company,n_of_pensioners,n_of_ind_contracts) %>% arrange(n_of_pensioners) %>% 
+  filter(n_of_participants>50000 & n_of_participants<100000)
+```
+
+
+```{r,warning=FALSE}
+egm_data  %>% group_by(date) %>%summarise(MeanOfParticipants= mean(n_of_participants))
+```
+
+## EXAMPLE SCATTER PLOT
+```{r,warning=FALSE}
+ggplot(data=egm_data ,aes(x = n_of_pensioners,y =n_of_employer_group_certificates)) + geom_point()
+```
+
+```{r,warning=FALSE}
+egm_data %>% select(n_of_ind_contracts:n_of_group_ind_contracts) %>% gather(key = n_of_ind_contracts, value = n_of_group_ind_contracts)  %>% ggplot(data = ., aes(x = n_of_ind_contracts, y =n_of_group_ind_contracts )) + geom_bar(stat = "identity")
+```
